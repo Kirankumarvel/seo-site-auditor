@@ -1,0 +1,15 @@
+LICENSE
+README.md
+setup.py
+seo_auditor/__init__.py
+seo_auditor/auditor.py
+seo_auditor/cli.py
+seo_auditor/report.py
+seo_auditor.egg-info/PKG-INFO
+seo_auditor.egg-info/SOURCES.txt
+seo_auditor.egg-info/dependency_links.txt
+seo_auditor.egg-info/entry_points.txt
+seo_auditor.egg-info/requires.txt
+seo_auditor.egg-info/top_level.txt
+tests/__init__.py
+tests/test_auditor.py
