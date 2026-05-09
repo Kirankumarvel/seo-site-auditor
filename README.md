@@ -1,0 +1,435 @@
+# SEO Site Auditor 🔍
+
+An automated, comprehensive SEO auditor that crawls websites and detects common SEO issues. Built with Python for developers and SEO professionals who want to automate site audits and integrate SEO analysis into their workflows.
+
+## Features ✨
+
+### SEO Issue Detection
+
+- **Meta Tags**
+  - Missing meta titles
+  - Meta title length validation (30-60 chars)
+  - Missing meta descriptions
+  - Meta description length validation (120-160 chars)
+
+- **Heading Tags**
+  - Missing H1 tags
+  - Multiple H1 tags on single page
+  - Empty H1 content
+  - H1 length validation
+
+- **Images & Media**
+  - Missing alt attributes on images
+  - Image optimization insights
+
+- **Technical SEO**
+  - Missing canonical tags
+  - Missing Open Graph tags
+  - Missing JSON-LD schema markup
+  - Missing mobile viewport meta tag
+
+- **Performance & Accessibility**
+  - Broken internal links detection
+  - Pages with error status codes
+  - Mobile responsiveness checks
+
+### Output Formats
+
+Generate audit reports in multiple formats:
+- 📊 **JSON** - Machine-readable, easy integration
+- 📄 **HTML** - Beautiful visual reports
+- 📝 **Text** - Plain text summaries
+
+## Installation
+
+### From Source
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/seo-auditor.git
+cd seo-auditor
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Install as package
+pip install -e .
+```
+
+### From PyPI (when published)
+
+```bash
+pip install seo-auditor
+```
+
+## Quick Start
+
+### Command Line Usage
+
+```bash
+# Basic audit
+seo-auditor audit https://example.com
+
+# Audit with custom settings
+seo-auditor audit https://example.com \
+  --max-pages 100 \
+  --timeout 15 \
+  --output json html text \
+  --output-dir ./reports
+
+# Get version
+seo-auditor version
+```
+
+### Programmatic Usage
+
+```python
+from seo_auditor import SEOAuditor, AuditReport
+
+# Initialize auditor
+auditor = SEOAuditor(
+    base_url="https://example.com",
+    max_pages=50,
+    timeout=10
+)
+
+# Run audit
+results = auditor.crawl()
+
+# Get summary
+summary = auditor.get_summary()
+print(f"Pages audited: {summary['total_pages_audited']}")
+print(f"Issues found: {summary['total_issues_found']}")
+
+# Generate reports
+report = AuditReport(results)
+report.to_json("report.json")
+report.to_html("report.html")
+report.to_text("report.txt")
+```
+
+See `example.py` for more detailed examples.
+
+## Project Structure
+
+```
+seo-auditor/
+├── seo_auditor/
+│   ├── __init__.py          # Package initialization
+│   ├── auditor.py           # Core auditing logic
+│   ├── report.py            # Report generation
+│   └── cli.py               # Command-line interface
+├── tests/                   # Unit tests
+├── example.py               # Usage examples
+├── setup.py                 # Package setup
+├── requirements.txt         # Dependencies
+├── .gitignore              # Git ignore rules
+└── README.md               # This file
+```
+
+## API Reference
+
+### SEOAuditor Class
+
+```python
+SEOAuditor(base_url: str, max_pages: int = 50, timeout: int = 10)
+```
+
+**Methods:**
+
+- `crawl() -> Dict`: Start the website crawl and audit
+- `get_summary() -> Dict`: Get audit summary with issue counts
+- `is_same_domain(url: str) -> bool`: Check if URL is on same domain
+- `fetch_page(url: str) -> Tuple[str, int]`: Fetch page HTML and status
+- `extract_links(html: str, current_url: str) -> Set[str]`: Extract links
+- `audit_page(url: str, html: str, status_code: int) -> Dict`: Audit single page
+
+**Example:**
+
+```python
+auditor = SEOAuditor("https://example.com", max_pages=100)
+results = auditor.crawl()
+
+# Access specific issues
+missing_titles = results['issues']['missing_meta_titles']
+for url in missing_titles:
+    print(f"Missing title: {url}")
+```
+
+### AuditReport Class
+
+```python
+AuditReport(audit_results: Dict)
+```
+
+**Methods:**
+
+- `to_json(filepath: str = None) -> str`: Generate JSON report
+- `to_html(filepath: str = None) -> str`: Generate HTML report
+- `to_text(filepath: str = None) -> str`: Generate text report
+
+**Example:**
+
+```python
+report = AuditReport(audit_results)
+
+# Generate and save reports
+report.to_json("output/report.json")
+report.to_html("output/report.html")
+report.to_text("output/report.txt")
+```
+
+## Configuration
+
+### Environment Variables
+
+```bash
+# Set default max pages
+export SEO_AUDITOR_MAX_PAGES=100
+
+# Set request timeout
+export SEO_AUDITOR_TIMEOUT=15
+```
+
+### Advanced Usage
+
+```python
+from seo_auditor import SEOAuditor
+
+# Custom session headers
+auditor = SEOAuditor("https://example.com")
+auditor.session.headers.update({
+    "Authorization": "Bearer token",
+    "Custom-Header": "value"
+})
+
+# Control crawl behavior
+auditor.max_pages = 200
+auditor.timeout = 30
+results = auditor.crawl()
+```
+
+## Output Examples
+
+### Console Output
+
+```
+🔍 Starting SEO Site Audit...
+
+Target: https://example.com
+Max Pages: 50
+Timeout: 10s
+
+============================================================
+AUDIT COMPLETE
+============================================================
+✅ Audited 45 pages
+⚠️  Found 127 issues
+
+📊 Generating reports...
+
+📊 Reports saved to: audit_reports/
+```
+
+### HTML Report
+
+Beautiful, interactive HTML report with:
+- Summary statistics (pages audited, total issues)
+- Issue breakdown by category
+- Severity levels (Critical 🔴, Warning 🟡, Info 🟢)
+- Responsive design for mobile viewing
+
+### JSON Report Structure
+
+```json
+{
+  "audit_timestamp": "2024-01-15T10:30:45.123456",
+  "audited_pages": 45,
+  "issues": {
+    "missing_meta_titles": ["https://example.com/page1", ...],
+    "missing_h1_tags": ["https://example.com/page2", ...],
+    "missing_image_alts": [
+      {
+        "url": "https://example.com/page3",
+        "issue": "Found 3 images without alt text"
+      }
+    ],
+    ...
+  },
+  "summary": {
+    "total_pages": 45,
+    "total_issues": 127,
+    "critical_issues": 45,
+    "warning_issues": 82
+  }
+}
+```
+
+## Issue Severity Levels
+
+### Critical 🔴
+- Missing meta titles
+- Missing H1 tags
+- Missing meta descriptions
+- Missing canonical tags
+- Missing schema markup
+
+### Warning 🟡
+- Meta title length issues
+- Meta description length issues
+- Multiple H1 tags
+- Missing image alt attributes
+- Missing Open Graph tags
+- Missing mobile viewport
+
+### Info 🟢
+- Broken internal links
+- Error status codes
+- Empty H1 content
+
+## Performance Considerations
+
+- **Crawl Speed**: Default 0.5s delay between requests (respects server resources)
+- **Memory Usage**: Optimized for large sites (100+ pages)
+- **Timeout**: Default 10s per request, configurable
+
+## Limitations & Future Features
+
+### Current Limitations
+- Single-threaded crawling (improvements planned)
+- No JavaScript rendering (static HTML only)
+- Basic performance metrics (full Lighthouse integration pending)
+
+### Roadmap 🚀
+- [ ] Concurrent/async crawling for speed
+- [ ] JavaScript rendering with Playwright
+- [ ] Lighthouse integration
+- [ ] PageSpeed insights
+- [ ] Mobile usability analysis
+- [ ] Core Web Vitals monitoring
+- [ ] Sitemap validation
+- [ ] Robots.txt analysis
+- [ ] Database storage for historical tracking
+- [ ] Web dashboard interface
+
+## Examples
+
+### Audit Multiple Sites
+
+```python
+from seo_auditor import SEOAuditor, AuditReport
+
+sites = [
+    "https://example1.com",
+    "https://example2.com",
+    "https://example3.com"
+]
+
+for site in sites:
+    auditor = SEOAuditor(site, max_pages=50)
+    results = auditor.crawl()
+    report = AuditReport(results)
+    
+    site_name = site.replace("https://", "").replace("/", "_")
+    report.to_html(f"reports/{site_name}_report.html")
+```
+
+### Filter Issues by Severity
+
+```python
+auditor = SEOAuditor("https://example.com")
+results = auditor.crawl()
+
+critical_issues = {
+    'missing_meta_titles': results['issues'].get('missing_meta_titles', []),
+    'missing_h1_tags': results['issues'].get('missing_h1_tags', []),
+    'missing_canonical_tags': results['issues'].get('missing_canonical_tags', []),
+}
+
+print(f"Critical issues: {sum(len(v) for v in critical_issues.values())}")
+```
+
+### Export Issue Details
+
+```python
+import json
+
+auditor = SEOAuditor("https://example.com")
+results = auditor.crawl()
+
+# Get pages missing titles
+missing_title_pages = results['issues']['missing_meta_titles']
+
+# Export to JSON
+with open('missing_titles.json', 'w') as f:
+    json.dump({
+        'total': len(missing_title_pages),
+        'pages': missing_title_pages
+    }, f, indent=2)
+```
+
+## Testing
+
+Run the test suite:
+
+```bash
+# Install test dependencies
+pip install pytest pytest-cov
+
+# Run tests
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ --cov=seo_auditor
+```
+
+## Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
+
+## Requirements
+
+- Python 3.8+
+- requests (HTTP library)
+- beautifulsoup4 (HTML parsing)
+- click (CLI framework)
+- lxml (XML parsing)
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Author
+
+Created by **Kiran** - 7+ years in SEO and digital marketing
+
+## Support
+
+For issues, feature requests, or questions:
+- 📧 Create an issue on GitHub
+- 💬 Check discussions for Q&A
+
+## Changelog
+
+### v1.0.0 (Initial Release)
+- Core SEO auditing functionality
+- Multi-format report generation (JSON, HTML, Text)
+- CLI interface
+- Comprehensive documentation
+
+## Related Tools
+
+- [SEMrush](https://semrush.com) - Commercial SEO platform
+- [Ahrefs](https://ahrefs.com) - Link analysis & SEO tools
+- [Screaming Frog](https://www.screamingfrog.co.uk/) - Desktop crawler
+- [Lighthouse](https://developers.google.com/web/tools/lighthouse) - Performance audits
+
+---
+
+**Happy Auditing! 🎉**
