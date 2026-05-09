@@ -1,0 +1,41 @@
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         SEO AUDIT REPORT                                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Audit Timestamp: 2026-05-09 10:47:14
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Total Pages Audited:    5
+Total Issues Found:     7
+Critical Issues:        0
+Warning Issues:         7
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ISSUES BY CATEGORY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+🟡 LONG META TITLES [3]
+   Severity: WARNING
+   Affected pages (first 5):
+   - https://vaagai-green-farm.vercel.app
+   - https://vaagai-green-farm.vercel.app/index.html
+   - https://vaagai-green-farm.vercel.app/about.html
+
+🟡 LONG META DESCRIPTIONS [4]
+   Severity: WARNING
+   Affected pages (first 5):
+   - https://vaagai-green-farm.vercel.app
+   - https://vaagai-green-farm.vercel.app/index.html
+   - https://vaagai-green-farm.vercel.app/products.html
+   - https://vaagai-green-farm.vercel.app/about.html
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Report generated on 2026-05-09 10:47:14
+Automated SEO Site Auditor v1.0.0
+
